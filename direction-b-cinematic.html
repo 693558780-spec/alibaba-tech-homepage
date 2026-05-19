@@ -15,8 +15,14 @@
   --seed-radius: 0px;
   --seed-muted: #717171;
   --seed-border: rgba(0, 0, 0, 0.08);
-  --grid-pad: 72px;
-  --content-width: 990px;
+
+  /* ═══ Responsive Grid System ═══
+     Content cap: 1200px (matches alibabagroup.com / 阿里集团官网)
+     1440 viewport → 1200 content + 120px padding each side
+     Below 1200: padding floors at 24px so content shrinks gracefully
+     Above 1200: padding expands, content stays capped at 1200 */
+  --content-width: 1200px;
+  --grid-pad: max((100vw - 1200px) / 2, 24px);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,7 +58,7 @@ nav[data-component="navigation"] {
   border-bottom: 1px solid var(--seed-border);
 }
 .nav-inner {
-  width: 100%; max-width: 1134px; padding: 0 var(--grid-pad);
+  width: 100%; padding: 0 var(--grid-pad);
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-brand { font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
@@ -778,6 +784,115 @@ footer[data-component="footer"] {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   - 1200px+ : design baseline (1440 viewport → 1200 content)
+   - 992-1199 : tablet, content fluidly shrinks, padding floors at 24px
+   - 768-991  : tablet portrait, hero stacks
+   - <768     : mobile, single column, condensed nav
+   ═══════════════════════════════════════════════════════════ */
+
+/* Tablet portrait — hero stacks, illustration shrinks */
+@media (max-width: 991px) {
+  .hero-layout { grid-template-columns: 1fr; gap: 48px; }
+  .hero-illustration { max-width: 360px; margin: 0 auto; }
+  .hero-title { font-size: clamp(40px, 6vw, 68px) !important; }
+  section[data-component="hero"] { padding: 120px 0 80px; min-height: auto; }
+
+  .themes-grid { grid-template-columns: 1fr; }
+  .theme-card,
+  .theme-card:nth-child(2),
+  .theme-card:last-child {
+    border-right: none;
+    border-bottom: 1px solid var(--seed-border);
+    padding: 36px 0;
+  }
+  .theme-card:last-child { border-bottom: none; }
+
+  .updates-editorial { grid-template-columns: 1fr; }
+
+  .tl-events-page { grid-template-columns: 1fr; }
+  .tl-event,
+  .tl-event:nth-child(odd),
+  .tl-event:nth-child(even) {
+    padding-left: 28px; padding-right: 0; text-align: left;
+  }
+  .tl-event::before,
+  .tl-event:nth-child(even)::before { left: 0; right: auto; }
+
+  .footer-cta-band { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .footer-links-row { flex-direction: column; align-items: flex-start; gap: 20px; }
+}
+
+/* Mobile — <768px */
+@media (max-width: 767px) {
+  :root {
+    --grid-pad: 20px;
+  }
+
+  /* Navigation: hide secondary links, keep brand + CTA */
+  .nav-links { display: none; }
+  .nav-right { gap: 12px; }
+  .lang-switcher { display: none; }
+  .nav-cta { padding: 6px 14px; font-size: 12px; }
+  nav[data-component="navigation"] { height: 56px; }
+
+  /* Section paddings tighten */
+  section[data-component="hero"] { padding: 96px 0 56px; }
+  section[data-component="themes"],
+  section[data-component="latest-updates"],
+  section[data-component="timeline"],
+  section[data-component="tech-stack"] {
+    padding: 64px 0;
+  }
+
+  /* Hero typography */
+  .hero-eyebrow { font-size: 11px; }
+  .hero-title { font-size: clamp(32px, 9vw, 48px) !important; line-height: 1.15; }
+  .hero-desc { font-size: 14px; }
+  .hero-illustration { max-width: 280px; }
+
+  /* Themes — tighter spacing */
+  .theme-card { padding: 28px 0; }
+  .theme-ordinal { font-size: 36px; }
+  .theme-title { font-size: 22px; }
+
+  /* Updates — feature card content padding tightens */
+  .update-feature-content { padding: 24px 20px; }
+  .update-feature-content .uf-title { font-size: 20px; }
+  .update-sm { flex-direction: column; }
+  .update-sm-visual { width: 100%; height: 140px; }
+  .update-sm-body { padding: 16px; }
+
+  /* Timeline */
+  .tl-events-container { padding: 0; }
+  .tl-event { padding: 20px 0 20px 20px; }
+
+  /* Tech stack — collapse layer card to single column */
+  .ts-layer { grid-template-columns: 32px 20px 1fr; }
+  .ts-layer-card {
+    grid-template-columns: 1fr; gap: 8px;
+    padding: 14px 18px;
+    align-items: flex-start;
+  }
+  .ts-layer-tags { justify-content: flex-start; }
+  .ts-layer-name { font-size: 15px !important; }
+  .ts-stack::before { left: 42px; }
+  .ts-layer-reveal-inner { grid-template-columns: 1fr; }
+
+  /* Footer */
+  .footer-cta-title { font-size: 18px; }
+  .footer-link-group { flex-wrap: wrap; gap: 16px; }
+  .footer-social { flex-wrap: wrap; gap: 12px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px 0; }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .hero-title { font-size: 32px !important; }
+  .nav-brand { font-size: 13px; letter-spacing: 1px; }
+}
 </style>
 </head>
 <body>
