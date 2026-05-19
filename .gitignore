@@ -10,6 +10,9 @@ vibe_images/
 .design.json
 .design/
 .canvas/
+.canvas-meta.json
+.design-state.json
+.vite/
 
 # OS / editor noise
 .DS_Store

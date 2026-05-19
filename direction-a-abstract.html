@@ -18,7 +18,7 @@
 
   /* ═══ Responsive Grid (1440 baseline → 1200 content + 120px sides) ═══ */
   --content-width: 1200px;
-  --grid-pad: max((100vw - 1200px) / 2, 24px);
+  --grid-pad: max((100vw - 1200px) / 2, 120px);
 }
 
 @font-face {
@@ -36,6 +36,8 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  /* Force 1440 design canvas — independent of preview viewport */
+  min-width: 1440px;
 }
 
 /* === NAVIGATION === */
@@ -557,6 +559,7 @@ footer[data-component="footer"] {
 }
 @media (max-width: 767px) {
   :root { --grid-pad: 20px; }
+  body { min-width: 0; }
   .nav-links { display: none; }
   .nav-cta { padding: 6px 14px; font-size: 12px; }
   nav[data-component="navigation"] { height: 56px; }
