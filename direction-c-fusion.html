@@ -36,6 +36,8 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  /* Force layout to compute at 1440 baseline */
+  min-width: 1440px;
 }
 
 /* === NAV === */
@@ -51,6 +53,7 @@ nav[data-component="navigation"] {
   background: rgba(11, 15, 25, 0.8);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--seed-border);
+  min-width: 1440px;
 }
 
 .nav-brand {
@@ -611,11 +614,20 @@ footer[data-component="footer"] {
 }
 
 /* ═══ RESPONSIVE BREAKPOINTS ═══ */
+/* When viewport is narrower than 1440 design baseline,
+   proportionally scale the whole 1440 layout down to fit
+   (preserves text wrap, column widths, and visual proportions). */
+@media (min-width: 768px) and (max-width: 1439px) {
+  html { zoom: calc(100vw / 1440); }
+}
+
 @media (max-width: 991px) {
   section[data-component="hero"] { padding: 120px 0 64px; min-height: auto; }
 }
 @media (max-width: 767px) {
   :root { --grid-pad: 20px; }
+  body { min-width: 0; }
+  nav[data-component="navigation"] { min-width: 0; }
   .nav-links { display: none; }
   .nav-cta { padding: 6px 14px; font-size: 12px; }
   nav[data-component="navigation"] { height: 56px; }

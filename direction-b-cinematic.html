@@ -39,6 +39,8 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  /* Force layout to compute at 1440 baseline */
+  min-width: 1440px;
 }
 
 /* ═══ GRID CONTAINER ═══ */
@@ -56,6 +58,7 @@ nav[data-component="navigation"] {
   background: rgba(250,250,250,0.9);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--seed-border);
+  min-width: 1440px;
 }
 .nav-inner {
   width: 100%; padding: 0 var(--grid-pad);
@@ -794,6 +797,13 @@ footer[data-component="footer"] {
    ═══════════════════════════════════════════════════════════ */
 
 /* Tablet portrait — hero stacks, illustration shrinks */
+/* When viewport is narrower than 1440 design baseline,
+   proportionally scale the whole 1440 layout down to fit
+   (preserves text wrap, column widths, and visual proportions). */
+@media (min-width: 768px) and (max-width: 1439px) {
+  html { zoom: calc(100vw / 1440); }
+}
+
 @media (max-width: 991px) {
   .hero-layout { grid-template-columns: 1fr; gap: 48px; }
   .hero-illustration { max-width: 360px; margin: 0 auto; }
@@ -830,6 +840,8 @@ footer[data-component="footer"] {
   :root {
     --grid-pad: 20px;
   }
+  body { min-width: 0; }
+  nav[data-component="navigation"] { min-width: 0; }
 
   /* Navigation: hide secondary links, keep brand + CTA */
   .nav-links { display: none; }
