@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="canvas:width" content="1440">
 <title>阿里技术 - 方向C：深浅共振</title>
 <style>
 :root {
@@ -20,6 +21,10 @@
   --light-muted: #6b7280;
   --light-border: rgba(0, 0, 0, 0.06);
   --light-surface: #ffffff;
+
+  /* ═══ Responsive Grid (1440 baseline → 1200 content + 120px sides) ═══ */
+  --content-width: 1200px;
+  --grid-pad: max((100vw - 1200px) / 2, 24px);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,7 +43,7 @@ nav[data-component="navigation"] {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 0 64px;
+  padding: 0 var(--grid-pad);
   height: 64px;
   display: flex;
   align-items: center;
@@ -89,7 +94,7 @@ nav[data-component="navigation"] {
 
 /* === HERO (DARK) === */
 section[data-component="hero"] {
-  padding: 160px 64px 80px;
+  padding: 160px var(--grid-pad) 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -231,7 +236,7 @@ section[data-component="hero"] {
 
 /* === UPDATES (LIGHT) === */
 section[data-component="latest-updates"] {
-  padding: 80px 64px 100px;
+  padding: 80px var(--grid-pad) 100px;
 }
 
 .updates-top {
@@ -318,7 +323,7 @@ section[data-component="latest-updates"] {
 
 /* === TIMELINE (LIGHT) === */
 section[data-component="timeline"] {
-  padding: 80px 64px 100px;
+  padding: 80px var(--grid-pad) 100px;
   border-top: 1px solid var(--light-border);
 }
 
@@ -416,7 +421,7 @@ section[data-component="timeline"] {
 
 /* === TECH STACK (DARK) === */
 section[data-component="tech-stack"] {
-  padding: 80px 64px 120px;
+  padding: 80px var(--grid-pad) 120px;
   background: var(--seed-bg);
   color: var(--seed-fg);
 }
@@ -535,7 +540,7 @@ section[data-component="tech-stack"] {
 
 /* === FOOTER (DARK) === */
 footer[data-component="footer"] {
-  padding: 72px 64px 36px;
+  padding: 72px var(--grid-pad) 36px;
   border-top: 1px solid var(--seed-border);
   background: var(--seed-bg);
 }
@@ -603,6 +608,22 @@ footer[data-component="footer"] {
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ═══ RESPONSIVE BREAKPOINTS ═══ */
+@media (max-width: 991px) {
+  section[data-component="hero"] { padding: 120px 0 64px; min-height: auto; }
+}
+@media (max-width: 767px) {
+  :root { --grid-pad: 20px; }
+  .nav-links { display: none; }
+  .nav-cta { padding: 6px 14px; font-size: 12px; }
+  nav[data-component="navigation"] { height: 56px; }
+  section[data-component="hero"] { padding: 96px 0 48px; }
+  section[data-component="latest-updates"],
+  section[data-component="timeline"],
+  section[data-component="tech-stack"] { padding: 56px 0 64px; }
+  footer { padding: 48px 0 24px; }
 }
 </style>
 </head>

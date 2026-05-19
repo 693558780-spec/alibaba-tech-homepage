@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="canvas:width" content="1440">
 <title>阿里技术 - 方向A：极简克制</title>
 <style>
 :root {
@@ -14,6 +15,10 @@
   --seed-radius: 0px;
   --seed-muted: #717171;
   --seed-border: rgba(0, 0, 0, 0.08);
+
+  /* ═══ Responsive Grid (1440 baseline → 1200 content + 120px sides) ═══ */
+  --content-width: 1200px;
+  --grid-pad: max((100vw - 1200px) / 2, 24px);
 }
 
 @font-face {
@@ -38,7 +43,7 @@ nav[data-component="navigation"] {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 0 80px;
+  padding: 0 var(--grid-pad);
   height: 64px;
   display: flex;
   align-items: center;
@@ -85,7 +90,7 @@ nav[data-component="navigation"] {
 
 /* === HERO === */
 section[data-component="hero"] {
-  padding: 160px 80px 80px;
+  padding: 160px var(--grid-pad) 80px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -205,7 +210,7 @@ section[data-component="hero"] {
 
 /* === LATEST UPDATES === */
 section[data-component="latest-updates"] {
-  padding: 120px 80px;
+  padding: 120px var(--grid-pad);
 }
 
 .updates-header {
@@ -285,7 +290,7 @@ section[data-component="latest-updates"] {
 
 /* === TIMELINE === */
 section[data-component="timeline"] {
-  padding: 120px 80px;
+  padding: 120px var(--grid-pad);
   background: var(--seed-fg);
   color: var(--seed-bg);
 }
@@ -376,7 +381,7 @@ section[data-component="timeline"] {
 
 /* === TECH STACK === */
 section[data-component="tech-stack"] {
-  padding: 120px 80px;
+  padding: 120px var(--grid-pad);
 }
 
 .stack-header {
@@ -471,7 +476,7 @@ section[data-component="tech-stack"] {
 
 /* === FOOTER === */
 footer[data-component="footer"] {
-  padding: 80px 80px 40px;
+  padding: 80px var(--grid-pad) 40px;
   border-top: 1px solid var(--seed-border);
 }
 
@@ -543,6 +548,25 @@ footer[data-component="footer"] {
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ═══ RESPONSIVE BREAKPOINTS ═══ */
+@media (max-width: 991px) {
+  .hero-title { font-size: clamp(48px, 8vw, 80px) !important; }
+  section[data-component="hero"] { padding: 120px 0 64px; min-height: auto; }
+}
+@media (max-width: 767px) {
+  :root { --grid-pad: 20px; }
+  .nav-links { display: none; }
+  .nav-cta { padding: 6px 14px; font-size: 12px; }
+  nav[data-component="navigation"] { height: 56px; }
+  section[data-component="hero"] { padding: 96px 0 48px; }
+  section[data-component="latest-updates"],
+  section[data-component="timeline"],
+  section[data-component="tech-stack"] { padding: 64px 0; }
+  .hero-title { font-size: clamp(36px, 9vw, 60px) !important; line-height: 1.1; }
+  footer { padding: 56px 0 24px; }
+}
 }
 </style>
 </head>
