@@ -53,6 +53,7 @@ nav[data-component="navigation"] {
   background: rgba(250,250,250,0.85);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--seed-border);
+  min-width: 1440px;
 }
 
 .nav-brand {
@@ -560,6 +561,7 @@ footer[data-component="footer"] {
 @media (max-width: 767px) {
   :root { --grid-pad: 20px; }
   body { min-width: 0; }
+  nav[data-component="navigation"] { min-width: 0; }
   .nav-links { display: none; }
   .nav-cta { padding: 6px 14px; font-size: 12px; }
   nav[data-component="navigation"] { height: 56px; }
