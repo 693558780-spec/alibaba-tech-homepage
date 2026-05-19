@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿里技术 - 方向C：深浅共振</title>
+<style>
+:root {
+  --seed-bg: #0b0f19;
+  --seed-fg: #e8edf5;
+  --seed-primary: #3b82f6;
+  --seed-accent: #06d6a0;
+  --seed-surface: #141926;
+  --seed-radius: 8px;
+  --seed-muted: #5b6580;
+  --seed-border: rgba(255, 255, 255, 0.06);
+  --seed-warm: #fb923c;
+  --light-bg: #f4f6fa;
+  --light-fg: #111827;
+  --light-muted: #6b7280;
+  --light-border: rgba(0, 0, 0, 0.06);
+  --light-surface: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--seed-bg);
+  color: var(--seed-fg);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === NAV === */
+nav[data-component="navigation"] {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(11, 15, 25, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--seed-border);
+}
+
+.nav-brand {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-dot {
+  width: 8px; height: 8px;
+  background: var(--seed-primary);
+  border-radius: 50%;
+}
+
+.nav-links {
+  display: flex; gap: 32px; list-style: none;
+}
+.nav-links a {
+  color: var(--seed-muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--seed-fg); }
+
+.nav-cta {
+  padding: 8px 20px;
+  background: var(--seed-primary);
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+}
+.nav-cta:hover { opacity: 0.9; }
+
+/* === HERO (DARK) === */
+section[data-component="hero"] {
+  padding: 160px 64px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Structural grid background */
+.hero-structure {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+.hero-ring {
+  position: absolute;
+  border: 1px solid rgba(59, 130, 246, 0.08);
+  border-radius: 50%;
+}
+
+.hero-ring:nth-child(1) {
+  width: 600px; height: 600px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hero-ring:nth-child(2) {
+  width: 400px; height: 400px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border-color: rgba(6, 214, 160, 0.06);
+}
+
+.hero-ring:nth-child(3) {
+  width: 200px; height: 200px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border-color: rgba(251, 146, 60, 0.08);
+}
+
+/* Animated gradient line */
+.hero-gradient-line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--seed-primary) 30%, var(--seed-accent) 50%, var(--seed-warm) 70%, transparent 100%);
+  opacity: 0.4;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+.hero-label {
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--seed-muted);
+  margin-bottom: 40px;
+}
+
+.hero-title {
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -2.5px;
+  margin-bottom: 28px;
+}
+
+.hero-title .line1 {
+  display: block;
+}
+
+.hero-title .line2 {
+  display: block;
+  background: linear-gradient(90deg, var(--seed-primary), var(--seed-accent), var(--seed-warm));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 17px;
+  color: var(--seed-muted);
+  line-height: 1.8;
+  max-width: 500px;
+  margin: 0 auto 48px;
+}
+
+.hero-tags {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.hero-tag {
+  padding: 10px 24px;
+  border: 1px solid var(--seed-border);
+  border-radius: 32px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--seed-fg);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.hero-tag:nth-child(1) { border-color: rgba(59, 130, 246, 0.2); }
+.hero-tag:nth-child(2) { border-color: rgba(6, 214, 160, 0.2); }
+.hero-tag:nth-child(3) { border-color: rgba(251, 146, 60, 0.2); }
+
+.hero-tag:nth-child(1):hover { background: rgba(59, 130, 246, 0.08); border-color: rgba(59, 130, 246, 0.3); }
+.hero-tag:nth-child(2):hover { background: rgba(6, 214, 160, 0.08); border-color: rgba(6, 214, 160, 0.3); }
+.hero-tag:nth-child(3):hover { background: rgba(251, 146, 60, 0.08); border-color: rgba(251, 146, 60, 0.3); }
+
+/* === TRANSITION ZONE === */
+.transition-zone {
+  height: 120px;
+  background: linear-gradient(180deg, var(--seed-bg) 0%, var(--light-bg) 100%);
+  position: relative;
+}
+
+.transition-line {
+  position: absolute;
+  top: 50%;
+  left: 64px; right: 64px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--seed-primary), var(--seed-accent), var(--seed-warm));
+  opacity: 0.15;
+}
+
+/* === LIGHT SECTIONS === */
+.light-zone {
+  background: var(--light-bg);
+  color: var(--light-fg);
+}
+
+/* === UPDATES (LIGHT) === */
+section[data-component="latest-updates"] {
+  padding: 80px 64px 100px;
+}
+
+.updates-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 48px;
+}
+
+.updates-heading {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  color: var(--light-fg);
+}
+
+.updates-link {
+  color: var(--seed-primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+.updates-link:hover { text-decoration: underline; }
+
+.updates-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.update-card {
+  background: var(--light-surface);
+  border: 1px solid var(--light-border);
+  border-radius: var(--seed-radius);
+  padding: 28px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.update-card:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.update-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.update-tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.tag-leading { background: rgba(59, 130, 246, 0.08); color: var(--seed-primary); }
+.tag-open { background: rgba(6, 214, 160, 0.08); color: #059669; }
+.tag-warm { background: rgba(251, 146, 60, 0.08); color: #ea580c; }
+
+.update-date {
+  font-size: 12px;
+  color: var(--light-muted);
+}
+
+.update-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  color: var(--light-fg);
+  letter-spacing: -0.2px;
+}
+
+.update-excerpt {
+  font-size: 14px;
+  color: var(--light-muted);
+  line-height: 1.6;
+}
+
+/* === TIMELINE (LIGHT) === */
+section[data-component="timeline"] {
+  padding: 80px 64px 100px;
+  border-top: 1px solid var(--light-border);
+}
+
+.tl-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
+}
+
+.tl-heading {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  color: var(--light-fg);
+}
+
+.tl-years {
+  display: flex;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.tl-year {
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--light-muted);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.tl-year.active {
+  background: var(--light-surface);
+  color: var(--light-fg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.tl-year:hover:not(.active) {
+  color: var(--light-fg);
+}
+
+.tl-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.tl-card {
+  background: var(--light-surface);
+  border: 1px solid var(--light-border);
+  border-radius: var(--seed-radius);
+  padding: 24px;
+  transition: all 0.2s;
+}
+
+.tl-card:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.tl-card-month {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--seed-primary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+
+.tl-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 6px;
+  color: var(--light-fg);
+}
+
+.tl-card-desc {
+  font-size: 13px;
+  color: var(--light-muted);
+  line-height: 1.5;
+}
+
+/* === TRANSITION BACK TO DARK === */
+.transition-to-dark {
+  height: 120px;
+  background: linear-gradient(180deg, var(--light-bg) 0%, var(--seed-bg) 100%);
+}
+
+/* === TECH STACK (DARK) === */
+section[data-component="tech-stack"] {
+  padding: 80px 64px 120px;
+  background: var(--seed-bg);
+  color: var(--seed-fg);
+}
+
+.ts-header {
+  text-align: center;
+  margin-bottom: 72px;
+}
+
+.ts-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--seed-muted);
+  margin-bottom: 16px;
+}
+
+.ts-heading {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+}
+
+.ts-visual {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+
+/* Vertical connector */
+.ts-visual::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, var(--seed-warm), var(--seed-primary), var(--seed-accent));
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.ts-layer {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 0;
+  align-items: center;
+  background: var(--seed-surface);
+  border: 1px solid var(--seed-border);
+  border-radius: var(--seed-radius);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s;
+}
+
+.ts-layer:hover {
+  border-color: rgba(59, 130, 246, 0.15);
+  transform: scale(1.01);
+}
+
+.ts-layer-accent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.ts-layer:nth-child(1) .ts-layer-accent { background: rgba(251, 146, 60, 0.08); color: rgba(251, 146, 60, 0.5); }
+.ts-layer:nth-child(2) .ts-layer-accent { background: rgba(168, 85, 247, 0.06); color: rgba(168, 85, 247, 0.4); }
+.ts-layer:nth-child(3) .ts-layer-accent { background: rgba(59, 130, 246, 0.06); color: rgba(59, 130, 246, 0.4); }
+.ts-layer:nth-child(4) .ts-layer-accent { background: rgba(6, 214, 160, 0.06); color: rgba(6, 214, 160, 0.4); }
+.ts-layer:nth-child(5) .ts-layer-accent { background: rgba(100, 116, 139, 0.06); color: rgba(148, 163, 184, 0.4); }
+
+.ts-layer-main {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 32px;
+}
+
+.ts-name {
+  font-size: 18px;
+  font-weight: 700;
+  min-width: 72px;
+  letter-spacing: -0.3px;
+}
+
+.ts-desc {
+  font-size: 14px;
+  color: var(--seed-muted);
+  flex: 1;
+}
+
+.ts-tags {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.ts-tag {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid var(--seed-border);
+  border-radius: 4px;
+  color: var(--seed-muted);
+}
+
+/* === FOOTER (DARK) === */
+footer[data-component="footer"] {
+  padding: 72px 64px 36px;
+  border-top: 1px solid var(--seed-border);
+  background: var(--seed-bg);
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 56px;
+}
+
+.footer-brand {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.footer-tagline {
+  font-size: 13px;
+  color: var(--seed-muted);
+  margin-top: 8px;
+}
+
+.footer-cols {
+  display: flex;
+  gap: 64px;
+}
+
+.footer-col h5 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--seed-muted);
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.footer-col a {
+  color: rgba(232, 237, 245, 0.4);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--seed-fg); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--seed-border);
+  font-size: 11px;
+  color: var(--seed-muted);
+}
+
+/* === ANIMATIONS === */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<nav data-component="navigation">
+  <div class="nav-brand">
+    <span class="nav-dot"></span>
+    阿里技术
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">前沿探索</a></li>
+    <li><a href="#">高效合作</a></li>
+    <li><a href="#">开源共享</a></li>
+    <li><a href="#">技术温度</a></li>
+    <li><a href="#">关于我们</a></li>
+  </ul>
+  <a href="#" class="nav-cta">招贤纳才</a>
+</nav>
+
+<main>
+
+<!-- ===== DARK ZONE: Hero ===== -->
+<section data-component="hero">
+  <div class="hero-structure">
+    <div class="hero-ring"></div>
+    <div class="hero-ring"></div>
+    <div class="hero-ring"></div>
+  </div>
+  <div class="hero-gradient-line"></div>
+  <div class="hero-content reveal">
+    <div class="hero-label">Alibaba Technology</div>
+    <h1 class="hero-title">
+      <span class="line1">征服星辰大海，</span>
+      <span class="line2">呵护人间烟火。</span>
+    </h1>
+    <p class="hero-subtitle">以AI为战略引擎，让前沿技术与每个人的生活产生共振。</p>
+    <div class="hero-tags">
+      <span class="hero-tag">领先 Leading</span>
+      <span class="hero-tag">开放 Open</span>
+      <span class="hero-tag">有温度 Warm</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRANSITION ===== -->
+<div class="transition-zone">
+  <div class="transition-line"></div>
+</div>
+
+<!-- ===== LIGHT ZONE ===== -->
+<div class="light-zone">
+
+<section data-component="latest-updates">
+  <div class="updates-top reveal">
+    <h2 class="updates-heading">最新动态</h2>
+    <a href="#" class="updates-link">查看全部 &rarr;</a>
+  </div>
+  <div class="updates-grid reveal">
+    <div class="update-card">
+      <div class="update-meta">
+        <span class="update-tag tag-leading">领先</span>
+        <span class="update-date">2026.05.12</span>
+      </div>
+      <h3 class="update-title">通义千问 Qwen3 全系列模型正式发布</h3>
+      <p class="update-excerpt">全新架构大语言模型，在推理和代码生成方面实现重大突破</p>
+    </div>
+    <div class="update-card">
+      <div class="update-meta">
+        <span class="update-tag tag-open">开放</span>
+        <span class="update-date">2026.04.28</span>
+      </div>
+      <h3 class="update-title">开源 AI 推理框架 PAI-Blade 3.0</h3>
+      <p class="update-excerpt">高性能推理引擎面向全球开发者开放</p>
+    </div>
+    <div class="update-card">
+      <div class="update-meta">
+        <span class="update-tag tag-warm">有温度</span>
+        <span class="update-date">2026.04.15</span>
+      </div>
+      <h3 class="update-title">AI 无障碍计划启动</h3>
+      <p class="update-excerpt">联合公益机构为视障群体打造智能辅助工具</p>
+    </div>
+  </div>
+</section>
+
+<section data-component="timeline">
+  <div class="tl-header reveal">
+    <h2 class="tl-heading">技术大事件</h2>
+    <div class="tl-years">
+      <button class="tl-year">2020</button>
+      <button class="tl-year">2021</button>
+      <button class="tl-year">2022</button>
+      <button class="tl-year">2023</button>
+      <button class="tl-year">2024</button>
+      <button class="tl-year">2025</button>
+      <button class="tl-year active">2026</button>
+    </div>
+  </div>
+  <div class="tl-grid reveal">
+    <div class="tl-card">
+      <div class="tl-card-month">1月</div>
+      <h4 class="tl-card-title">Qwen2.5-Max 发布</h4>
+      <p class="tl-card-desc">多项基准测试达国际领先</p>
+    </div>
+    <div class="tl-card">
+      <div class="tl-card-month">3月</div>
+      <h4 class="tl-card-title">AI Infra 全栈升级</h4>
+      <p class="tl-card-desc">服务器集群效率大幅提升</p>
+    </div>
+    <div class="tl-card">
+      <div class="tl-card-month">4月</div>
+      <h4 class="tl-card-title">PAI-Blade 3.0 开源</h4>
+      <p class="tl-card-desc">推理引擎面向全球开放</p>
+    </div>
+    <div class="tl-card">
+      <div class="tl-card-month">5月</div>
+      <h4 class="tl-card-title">Qwen3 全面开源</h4>
+      <p class="tl-card-desc">全尺寸模型下载破千万</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- end light-zone -->
+
+<!-- ===== TRANSITION BACK ===== -->
+<div class="transition-to-dark"></div>
+
+<!-- ===== DARK ZONE: Tech Stack ===== -->
+<section data-component="tech-stack">
+  <div class="ts-header reveal">
+    <div class="ts-label">全栈技术架构</div>
+    <h2 class="ts-heading">从芯片到应用</h2>
+  </div>
+  <div class="ts-visual reveal">
+    <div class="ts-layer">
+      <div class="ts-layer-accent">L5</div>
+      <div class="ts-layer-main">
+        <span class="ts-name">应用层</span>
+        <span class="ts-desc">钉钉 AI、通义系列产品、电商智能体</span>
+        <div class="ts-tags"><span class="ts-tag">通义千问</span><span class="ts-tag">AI Agent</span></div>
+      </div>
+    </div>
+    <div class="ts-layer">
+      <div class="ts-layer-accent">L4</div>
+      <div class="ts-layer-main">
+        <span class="ts-name">模型层</span>
+        <span class="ts-desc">Qwen 大语言模型、多模态模型、行业模型</span>
+        <div class="ts-tags"><span class="ts-tag">Qwen3</span><span class="ts-tag">多模态</span></div>
+      </div>
+    </div>
+    <div class="ts-layer">
+      <div class="ts-layer-accent">L3</div>
+      <div class="ts-layer-main">
+        <span class="ts-name">平台层</span>
+        <span class="ts-desc">PAI 机器学习平台、百炼大模型服务平台</span>
+        <div class="ts-tags"><span class="ts-tag">PAI</span><span class="ts-tag">百炼</span></div>
+      </div>
+    </div>
+    <div class="ts-layer">
+      <div class="ts-layer-accent">L2</div>
+      <div class="ts-layer-main">
+        <span class="ts-name">计算层</span>
+        <span class="ts-desc">AIACC 加速框架、异构计算调度、万卡集群</span>
+        <div class="ts-tags"><span class="ts-tag">AIACC</span><span class="ts-tag">HPN 7.0</span></div>
+      </div>
+    </div>
+    <div class="ts-layer">
+      <div class="ts-layer-accent">L1</div>
+      <div class="ts-layer-main">
+        <span class="ts-name">芯片层</span>
+        <span class="ts-desc">含光 AI 芯片、倚天 ARM 服务器芯片</span>
+        <div class="ts-tags"><span class="ts-tag">含光800</span><span class="ts-tag">倚天710</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer data-component="footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">阿里技术</div>
+      <div class="footer-tagline">征服星辰大海，呵护人间烟火</div>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h5>探索</h5>
+        <ul><li><a href="#">前沿探索</a></li><li><a href="#">开源项目</a></li><li><a href="#">技术博客</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h5>关于</h5>
+        <ul><li><a href="#">关于我们</a></li><li><a href="#">招贤纳才</a></li><li><a href="#">联系我们</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h5>关注</h5>
+        <ul><li><a href="#">微信公众号</a></li><li><a href="#">GitHub</a></li><li><a href="#">知乎</a></li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Alibaba Group</span>
+    <span>浙ICP备XXXXXXXX号</span>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.querySelectorAll('.tl-year').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tl-year').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

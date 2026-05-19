@@ -1,0 +1,25 @@
+# Workspace scratch folders — not part of the deployable site
+outputs/
+assets/
+images/
+styles/
+uploads/
+vibe_images/
+
+# Internal Canvas / planning artifacts
+.design.json
+.design/
+.canvas/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
+
+# Node / tooling (in case anything is added later)
+node_modules/
+.cache/
+dist/

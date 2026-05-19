@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿里技术官网 · 高保真三方向</title>
+<style>
+  :root {
+    --bg: #f8f5f0;
+    --fg: #0a0a0a;
+    --muted: #6b6b6b;
+    --accent: #FF6A00;
+    --border: rgba(0,0,0,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: -apple-system, system-ui, "PingFang SC", "Helvetica Neue", sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 64px 24px;
+  }
+  .wrap { max-width: 880px; width: 100%; }
+  .eyebrow {
+    font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 16px;
+  }
+  h1 {
+    font-size: clamp(32px, 5vw, 52px); font-weight: 800; line-height: 1.15;
+    margin-bottom: 14px; letter-spacing: -0.02em;
+  }
+  .lead {
+    font-size: 16px; color: var(--muted); margin-bottom: 48px;
+    max-width: 620px;
+  }
+  .grid {
+    display: grid; grid-template-columns: 1fr; gap: 12px;
+  }
+  .card {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 28px; background: #fff; border: 1px solid var(--border);
+    text-decoration: none; color: var(--fg);
+    transition: all 0.2s ease;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+    box-shadow: 0 6px 24px rgba(255,106,0,0.10);
+  }
+  .card-left { display: flex; flex-direction: column; gap: 4px; }
+  .card-tag {
+    font-size: 12px; color: var(--muted); letter-spacing: 1px;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .card-title { font-size: 19px; font-weight: 700; }
+  .card-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .card-arrow { font-size: 22px; color: var(--accent); }
+  footer {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Alibaba Technology</div>
+    <h1>官网首页 · 高保真设计三方向</h1>
+    <p class="lead">围绕「征服星辰大海，呵护人间烟火」品牌主张，从极简克制、温度叙事、深浅共振三种视觉语言出发的高保真探索稿。</p>
+    <div class="grid">
+      <a class="card" href="direction-b-cinematic.html">
+        <div class="card-left">
+          <span class="card-tag">B · 当前主推</span>
+          <span class="card-title">温度叙事</span>
+          <span class="card-desc">暖色基调 · 真实产品图 · 阿里橙品牌色系 · 编辑式版式</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+      <a class="card" href="direction-a-abstract.html">
+        <div class="card-left">
+          <span class="card-tag">A · 探索版</span>
+          <span class="card-title">极简克制</span>
+          <span class="card-desc">白底 · 超大字号 · 数据表式版式 · 黑白红</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+      <a class="card" href="direction-c-fusion.html">
+        <div class="card-left">
+          <span class="card-tag">C · 探索版</span>
+          <span class="card-title">深浅共振</span>
+          <span class="card-desc">深-浅-深过渡区 · 三色主题系统 · 几何同心圆 hero</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+    </div>
+    <footer>静态预览 · 单文件 HTML · 仅用于设计评审</footer>
+  </div>
+</body>
+</html>
