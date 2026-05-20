@@ -144,11 +144,11 @@ section[data-component="hero"] {
 .hero-bottom {
   margin-top: 48px; padding-top: 24px;
   border-top: 1px solid var(--seed-border);
-  display: flex; align-items: flex-start; gap: 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 32px;
 }
 .hero-desc {
-  font-size: 15px; color: var(--seed-muted); max-width: 360px;
-  line-height: 1.8; flex-shrink: 0;
+  font-size: 15px; color: var(--seed-muted);
+  line-height: 1.6; flex: 1 1 auto; white-space: nowrap;
 }
 .hero-cta {
   display: inline-flex; align-items: center; gap: 8px;
@@ -217,13 +217,13 @@ section[data-component="themes"] {
 }
 .themes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
 .theme-card {
-  padding: 48px 36px 48px 0; border-right: 1px solid var(--seed-border);
+  padding: 48px 22px 48px 0; border-right: 1px solid var(--seed-border);
   position: relative; cursor: pointer; overflow: hidden;
   transition: background 0.3s;
 }
 .theme-card:first-child { padding-left: 0; }
-.theme-card:nth-child(2) { padding-left: 36px; }
-.theme-card:last-child { border-right: none; padding-left: 36px; padding-right: 0; }
+.theme-card:nth-child(2) { padding-left: 22px; }
+.theme-card:last-child { border-right: none; padding-left: 22px; padding-right: 0; }
 .theme-card:hover { background: rgba(0,0,0,0.01); }
 
 .theme-ordinal {
@@ -237,7 +237,7 @@ section[data-component="themes"] {
   color: var(--seed-muted); margin-bottom: 8px; font-weight: 500;
 }
 .theme-name { font-size: 26px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.8px; }
-.theme-desc { font-size: 14px; color: var(--seed-muted); line-height: 1.7; }
+.theme-desc { font-size: 13px; color: var(--seed-muted); line-height: 1.65; letter-spacing: -0.2px; }
 
 /* Hover reveal */
 .theme-reveal {
@@ -902,10 +902,11 @@ footer[data-component="footer"] {
     <div class="nav-brand">阿里技术</div>
     <ul class="nav-links">
       <li><a href="#">前沿探索</a></li>
-      <li><a href="#">高效合作</a></li>
+      <li><a href="#">高校合作</a></li>
       <li><a href="#">开源共享</a></li>
       <li><a href="#">技术温度</a></li>
       <li><a href="#">关于我们</a></li>
+      <li><a href="#">招贤纳才</a></li>
     </ul>
     <div class="nav-right">
       <div class="lang-switcher" tabindex="0">
@@ -920,7 +921,6 @@ footer[data-component="footer"] {
           <button class="lang-option">English</button>
         </div>
       </div>
-      <a href="#" class="nav-cta">加入我们</a>
     </div>
   </div>
 </nav>
@@ -937,7 +937,7 @@ footer[data-component="footer"] {
         <span class="hero-title-line2">呵护人间烟火。</span>
       </h1>
       <div class="hero-bottom">
-        <p class="hero-desc">以AI为战略引擎，构建从基础科研到产业应用的完整创新链路，用前沿技术温暖每个人的日常。</p>
+        <p class="hero-desc">以 AI 为战略引擎，构建领先、开放、有温度的技术生态。</p>
         <a href="#" class="hero-cta">探索技术全景 &rarr;</a>
       </div>
     </div>
@@ -1025,7 +1025,7 @@ footer[data-component="footer"] {
       <div class="theme-ordinal">01</div>
       <div class="theme-en">Leading</div>
       <h3 class="theme-name">领先</h3>
-      <p class="theme-desc">科研成果与重大技术进展，AI战略的阶段性突破，定义行业技术高度</p>
+      <p class="theme-desc">从AI基础设施到研发范式变革。</p>
       <div class="theme-reveal">
         <div class="theme-reveal-inner">
           <div class="theme-reveal-label">最新成果</div>
@@ -1039,7 +1039,7 @@ footer[data-component="footer"] {
       <div class="theme-ordinal">02</div>
       <div class="theme-en">Open</div>
       <h3 class="theme-name">开放</h3>
-      <p class="theme-desc">开源模型与行业标准共建，技术知识共享，与全球开发者共同成长</p>
+      <p class="theme-desc">代码开源、标准共建、生态共享；联合顶尖高校与科研机构，播种下一代技术力量。</p>
       <div class="theme-reveal">
         <div class="theme-reveal-inner">
           <div class="theme-reveal-label">开源生态</div>
@@ -1053,7 +1053,7 @@ footer[data-component="footer"] {
       <div class="theme-ordinal">03</div>
       <div class="theme-en">Warm</div>
       <h3 class="theme-name">有温度</h3>
-      <p class="theme-desc">科技伦理与技术公益，让技术回归人本价值，守护社会的每一个角落</p>
+      <p class="theme-desc">让智能技术普惠每一个普通人。</p>
       <div class="theme-reveal">
         <div class="theme-reveal-inner">
           <div class="theme-reveal-label">技术公益</div>
